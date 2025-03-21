@@ -47,10 +47,10 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
   - [x] Implémenter les routes CRUD Plat
   - [x] Valider les tests
 
-- [ ] Développer et tester les routes pour les Utilisateurs
-  - [ ] Écrire les tests pour CRUD Utilisateur
-  - [ ] Implémenter les routes CRUD Utilisateur
-  - [ ] Valider les tests
+- [x] Développer et tester les routes pour les Utilisateurs
+  - [x] Écrire les tests pour CRUD Utilisateur
+  - [x] Implémenter les routes CRUD Utilisateur
+  - [x] Valider les tests
 
 ### Fonctionnalités spécifiques
 

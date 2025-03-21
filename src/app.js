@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -11,13 +12,17 @@ const app = express();
 // Middleware pour parser le JSON
 app.use(express.json());
 
+// Middleware pour parser les cookies
+app.use(cookieParser());
+
 // Activer CORS
 app.use(cors());
 
-// Routes (à implémenter)
+// Routes
 app.use('/api/restaurants', require('./routes/restaurants'));
 app.use('/api/dishes', require('./routes/dishes'));
-// app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
 
 // Middleware pour gérer les erreurs 404
 app.use((req, res, next) => {
