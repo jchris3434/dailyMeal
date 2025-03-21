@@ -54,10 +54,14 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
 
 ### Fonctionnalités spécifiques
 
-- [ ] Implémenter et tester la géolocalisation
-  - [ ] Écrire les tests pour la recherche par rayon
-  - [ ] Implémenter la recherche par rayon
-  - [ ] Valider les tests
+- [x] Implémenter et tester la géolocalisation
+  - [x] Écrire les tests pour la recherche par rayon
+  - [x] Implémenter la recherche par rayon
+  - [x] Valider les tests
+  - [x] Implémentation d'une approche hybride :
+    - Route dédiée `/api/restaurants/radius/:coordinates/:distance`
+    - Paramètres de requête sur la route principale `/api/restaurants?lat=X&lng=Y&maxDistance=Z`
+    - Utilisation de `$geoWithin` avec `$centerSphere` pour les requêtes géospatiales
 
 - [ ] Implémenter et tester les filtres et tris
   - [ ] Écrire les tests pour les filtres (distance, prix, options diététiques)
@@ -130,3 +134,13 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
 - Environnement de développement: Kali Linux (WSL)
 - Chemin du projet: `/home/jc34/2024/dailyMeal`
 - Méthodologie: TDD (Test Driven Development)
+
+## Journal des modifications importantes
+
+### 21/03/2025 - Implémentation de la géolocalisation hybride
+
+- Mise à jour du contrôleur `getRestaurants` pour prendre en charge les paramètres de géolocalisation (`lat`, `lng`, `maxDistance`)
+- Harmonisation des routes de géolocalisation : `/api/restaurants/radius/:coordinates/:distance`
+- Amélioration de la méthode `findNearby` avec `$geoWithin` et `$centerSphere` pour résoudre les problèmes de compatibilité MongoDB
+- Validation des paramètres de géolocalisation et gestion appropriée des erreurs
+- Tous les tests de géolocalisation passent avec succès
