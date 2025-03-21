@@ -10,6 +10,12 @@ exports.getRestaurants = async (req, res, next) => {
     // Copier req.query
     const reqQuery = { ...req.query };
 
+    // Vérifier si des paramètres de géolocalisation sont présents
+    const { lat, lng, maxDistance } = req.query;
+    
+    // Supprimer les paramètres de géolocalisation de reqQuery pour le traitement standard
+    ['lat', 'lng', 'maxDistance'].forEach(param => delete reqQuery[param]);
+
     // Traitement spécial pour la recherche par nom (recherche partielle)
     if (reqQuery.name) {
       reqQuery.name = { $regex: reqQuery.name, $options: 'i' };
@@ -27,8 +33,17 @@ exports.getRestaurants = async (req, res, next) => {
     // Créer les opérateurs ($gt, $gte, etc)
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 
-    // Trouver les restaurants
-    query = Restaurant.find(JSON.parse(queryStr));
+    // Vérifier si tous les paramètres de géolocalisation sont présents
+    if (lat && lng && maxDistance) {
+      // Utiliser la méthode findNearby pour la recherche géospatiale
+      const coordinates = [parseFloat(lng), parseFloat(lat)];
+      const distance = parseFloat(maxDistance) * 1000; // Convertir en mètres
+      
+      query = Restaurant.findNearby(coordinates, distance).find(JSON.parse(queryStr));
+    } else {
+      // Recherche standard sans géolocalisation
+      query = Restaurant.find(JSON.parse(queryStr));
+    }
 
     // Sélection de champs
     if (req.query.select) {
@@ -49,7 +64,16 @@ exports.getRestaurants = async (req, res, next) => {
     const limit = parseInt(req.query.limit, 10) || 25;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    const total = await Restaurant.countDocuments(JSON.parse(queryStr));
+    
+    // Compter les documents (avec ou sans géolocalisation)
+    let total;
+    if (lat && lng && maxDistance) {
+      const coordinates = [parseFloat(lng), parseFloat(lat)];
+      const distance = parseFloat(maxDistance) * 1000;
+      total = await Restaurant.findNearby(coordinates, distance).find(JSON.parse(queryStr)).countDocuments();
+    } else {
+      total = await Restaurant.countDocuments(JSON.parse(queryStr));
+    }
 
     query = query.skip(startIndex).limit(limit);
 
@@ -211,21 +235,35 @@ exports.deleteRestaurant = async (req, res, next) => {
 };
 
 // @desc    Get restaurants within a radius
-// @route   GET /api/restaurants/radius/:zipcode/:distance
+// @route   GET /api/restaurants/radius/:coordinates/:distance
 // @access  Public
 exports.getRestaurantsInRadius = async (req, res, next) => {
   try {
-    const { zipcode, distance } = req.params;
+    const { coordinates, distance } = req.params;
 
-    // Obtenir les coordonnées lat/lng à partir du zipcode
-    // Pour simplifier, nous utilisons directement les coordonnées dans le format 'lat,lng'
-    const [lat, lng] = zipcode.split(',');
+    // Obtenir les coordonnées lat/lng à partir du format 'lat,lng'
+    const [lat, lng] = coordinates.split(',');
 
-    // Calculer le rayon en radians
-    // La Terre a un rayon d'environ 6378 km
-    const radius = distance / 6378;
+    // Validation des coordonnées
+    if (!lat || !lng || isNaN(parseFloat(lat)) || isNaN(parseFloat(lng))) {
+      return res.status(400).json({
+        success: false,
+        error: 'Format de coordonnées invalide. Utilisez le format "latitude,longitude"'
+      });
+    }
 
-    const restaurants = await Restaurant.findNearby([parseFloat(lng), parseFloat(lat)], parseFloat(distance) * 1000);
+    // Validation de la distance
+    if (!distance || isNaN(parseFloat(distance))) {
+      return res.status(400).json({
+        success: false,
+        error: 'Distance invalide. Veuillez fournir une valeur numérique en kilomètres'
+      });
+    }
+
+    // Convertir la distance en mètres pour la recherche géospatiale
+    const distanceInMeters = parseFloat(distance) * 1000;
+
+    const restaurants = await Restaurant.findNearby([parseFloat(lng), parseFloat(lat)], distanceInMeters);
 
     res.status(200).json({
       success: true,

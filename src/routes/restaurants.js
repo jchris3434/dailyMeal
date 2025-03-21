@@ -13,7 +13,7 @@ const {
 const { protect, authorize } = require('../middlewares/auth');
 
 // Route pour la recherche par rayon
-router.route('/radius/:zipcode/:distance')
+router.route('/radius/:coordinates/:distance')
   .get(getRestaurantsInRadius);
 
 // Routes principales

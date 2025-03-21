@@ -91,12 +91,11 @@ restaurantSchema.index({ location: '2dsphere' });
 restaurantSchema.statics.findNearby = function(coordinates, maxDistance) {
   return this.find({
     location: {
-      $near: {
-        $geometry: {
-          type: 'Point',
-          coordinates: coordinates
-        },
-        $maxDistance: maxDistance
+      $geoWithin: {
+        $centerSphere: [
+          coordinates,
+          maxDistance / 6378100 // Convertir la distance en radians (rayon de la Terre à l'équateur en mètres)
+        ]
       }
     }
   });
