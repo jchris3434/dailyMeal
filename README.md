@@ -1,29 +1,28 @@
-# DailyMeal
+# DailyMeal  
 
-Application pour recenser les plats du jour des restaurants u00e0 proximitu00e9.
+Application pour recenser les plats du jour des restaurants à proximité.  
 
-## Architecture
+## Architecture  
 
-- **Backend**: Node.js avec Express et Mongoose ODM
-- **Base de donnu00e9es**: MongoDB (via Docker)
-- **Frontend**: Flutter (en du00e9veloppement)
+- **Backend** : Node.js avec Express et Mongoose ODM  
+- **Base de données** : MongoDB (via Docker)  
+- **Frontend** : Flutter (en développement)  
 
-## Pru00e9requis
+## Prérequis  
 
-- Node.js (v14 ou supu00e9rieur)
-- Docker et Docker Compose
-- Git
+- Node.js (v14 ou supérieur)  
+- Docker et Docker Compose  
+- Git  
 
-## Installation
+## Installation  
 
-1. Cloner le du00e9pu00f4t
-
-```bash
-git clone <url-du-depot>
-cd dailyMeal
+1. Cloner le dépôt :  
+```bash  
+git clone <url-du-depot>  
+cd dailyMeal  
 ```
 
-2. Installer les du00e9pendances
+2. Installer les dépendances 
 
 ```bash
 npm install
@@ -31,17 +30,17 @@ npm install
 
 3. Configurer les variables d'environnement
 
-Cru00e9er un fichier `.env` u00e0 la racine du projet (un exemple est fourni dans le fichier `.env`)
+Créer un fichier `.env` à la racine du projet (un exemple est fourni dans le fichier `.env`)
 
-4. Du00e9marrer MongoDB avec Docker
+4. Démarrer MongoDB avec Docker
 
 ```bash
 docker-compose up -d
 ```
 
-## Du00e9veloppement
+## Développement
 
-Pour du00e9marrer le serveur en mode du00e9veloppement :
+Pour démarrer le serveur en mode développement :
 
 ```bash
 npm run dev
@@ -49,13 +48,13 @@ npm run dev
 
 ## Tests
 
-Pour exu00e9cuter les tests :
+Pour exécuter les tests :
 
 ```bash
 npm test
 ```
 
-Pour exu00e9cuter les tests en mode watch :
+Pour exécuter les tests en mode watch :
 
 ```bash
 npm run test:watch
@@ -67,25 +66,25 @@ npm run test:watch
 /dailyMeal
   /.env                  # Variables d'environnement
   /docker-compose.yml    # Configuration Docker
-  /package.json          # Du00e9pendances et scripts
+  /package.json          # Dépendances et scripts
   /jest.config.js        # Configuration des tests
   /src
-    /index.js            # Point d'entru00e9e de l'application
+    /index.js            # Point d'entrée de l'application
     /config/             # Configuration (DB, etc.)
-    /controllers/        # Contru00f4leurs
-    /models/             # Modu00e8les Mongoose
+    /controllers/        # Contrôleurs
+    /models/             # Modèles Mongoose
     /routes/             # Routes API
     /tests/              # Tests
 ```
 
-## Mu00e9thodologie
+## Méthodologie
 
-Ce projet suit une mu00e9thodologie TDD (Test Driven Development). Pour chaque fonctionnalitu00e9 :
+Ce projet suit une méthodologie TDD (Test Driven Development). Pour chaque fonctionnalité :
 
-1. u00c9crire d'abord les tests
-2. Implu00e9menter la fonctionnalitu00e9
+1. Écrire d'abord les tests
+2. Implémenter la fonctionnalité
 3. Valider que les tests passent
-4. Refactoriser si nu00e9cessaire
+4. Refactoriser si nécessaire
 
 ## Licence
 
