@@ -16,7 +16,7 @@ app.use(cors());
 
 // Routes (à implémenter)
 app.use('/api/restaurants', require('./routes/restaurants'));
-// app.use('/api/dishes', require('./routes/dishes'));
+app.use('/api/dishes', require('./routes/dishes'));
 // app.use('/api/auth', require('./routes/auth'));
 
 // Middleware pour gérer les erreurs 404
