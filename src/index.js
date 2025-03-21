@@ -17,8 +17,8 @@ app.use(cors());
 const connectDB = require('./config/db');
 connectDB();
 
-// Define routes (to be implemented)
-// app.use('/api/restaurants', require('./routes/restaurants'));
+// Define routes
+app.use('/api/restaurants', require('./routes/restaurants'));
 // app.use('/api/dishes', require('./routes/dishes'));
 // app.use('/api/users', require('./routes/users'));
 

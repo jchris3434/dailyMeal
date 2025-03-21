@@ -13,34 +13,34 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
 - [x] Initialiser le projet Node.js
 - [x] Configurer Docker et créer un container MongoDB
 - [x] Configurer l'environnement de test (Jest/Mocha)
-- [ ] Mettre en place le système de versionnage (Git)
+- [x] Mettre en place le système de versionnage (Git)
 - [x] Créer la structure de base du projet
 
 ## Phase 2: Développement du Backend (TDD)
 
 ### Modèles de données
 
-- [ ] Définir et tester le modèle Restaurant
-  - [ ] Écrire les tests pour le modèle Restaurant
-  - [ ] Implémenter le modèle Restaurant
-  - [ ] Valider les tests
+- [x] Définir et tester le modèle Restaurant
+  - [x] Écrire les tests pour le modèle Restaurant
+  - [x] Implémenter le modèle Restaurant
+  - [x] Valider les tests
 
-- [ ] Définir et tester le modèle Plat
-  - [ ] Écrire les tests pour le modèle Plat
-  - [ ] Implémenter le modèle Plat
-  - [ ] Valider les tests
+- [x] Définir et tester le modèle Plat
+  - [x] Écrire les tests pour le modèle Plat
+  - [x] Implémenter le modèle Plat
+  - [x] Valider les tests
 
-- [ ] Définir et tester le modèle Utilisateur
-  - [ ] Écrire les tests pour le modèle Utilisateur
-  - [ ] Implémenter le modèle Utilisateur
-  - [ ] Valider les tests
+- [x] Définir et tester le modèle Utilisateur
+  - [x] Écrire les tests pour le modèle Utilisateur
+  - [x] Implémenter le modèle Utilisateur
+  - [x] Valider les tests
 
 ### API RESTful
 
-- [ ] Développer et tester les routes pour les Restaurants
-  - [ ] Écrire les tests pour CRUD Restaurant
-  - [ ] Implémenter les routes CRUD Restaurant
-  - [ ] Valider les tests
+- [x] Développer et tester les routes pour les Restaurants
+  - [x] Écrire les tests pour CRUD Restaurant
+  - [x] Implémenter les routes CRUD Restaurant
+  - [x] Valider les tests
 
 - [ ] Développer et tester les routes pour les Plats
   - [ ] Écrire les tests pour CRUD Plat
