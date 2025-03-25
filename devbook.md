@@ -78,22 +78,19 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
   - [x] Implémenter la fonctionnalité de programmation
   - [x] Valider les tests
 
-- [ ] Implémenter et tester la gestion des stocks
-  - [ ] Écrire les tests pour la gestion des stocks
-  - [ ] Implémenter la fonctionnalité de gestion des stocks
-  - [ ] Valider les tests
+- [ ] ~~Implémenter et tester la gestion des stocks~~ (reporté à une version ultérieure)
 
 ## Phase 3: Authentification et Autorisation
 
-- [ ] Implémenter et tester l'authentification
-  - [ ] Écrire les tests pour l'authentification
-  - [ ] Implémenter JWT ou autre système d'authentification
-  - [ ] Valider les tests
+- [x] Implémenter et tester l'authentification
+  - [x] Écrire les tests pour l'authentification
+  - [x] Implémenter JWT ou autre système d'authentification
+  - [x] Valider les tests
 
-- [ ] Implémenter et tester les rôles et permissions
-  - [ ] Écrire les tests pour les rôles (utilisateur, restaurateur)
-  - [ ] Implémenter la gestion des rôles
-  - [ ] Valider les tests
+- [x] Implémenter et tester les rôles et permissions
+  - [x] Écrire les tests pour les rôles (utilisateur, restaurateur)
+  - [x] Implémenter la gestion des rôles
+  - [x] Valider les tests
 
 ## Phase 4: Système de Notification
 

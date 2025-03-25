@@ -372,6 +372,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     .json({
       success: true,
       token,
-      data: user
+      user: user,
+      data: user // Pour maintenir la compatibilité avec les tests existants
     });
 };
