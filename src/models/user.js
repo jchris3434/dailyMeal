@@ -2,12 +2,46 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: ID unique de l'utilisateur généré automatiquement par MongoDB
+ *         name:
+ *           type: string
+ *           description: Nom complet de l'utilisateur
+ *         email:
+ *           type: string
+ *           description: Adresse email de l'utilisateur, doit être unique
+ *         password:
+ *           type: string
+ *           description: Mot de passe hashé de l'utilisateur (non retourné dans les réponses)
+ *         role:
+ *           type: string
+ *           enum: [user, owner, admin]
+ *           description: Rôle de l'utilisateur (user, owner ou admin)
+ *       example:
+ *         name: John Doe
+ *         email: john@example.com
+ *         password: password123
+ *         role: user
+ */
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Le nom est requis'],
     trim: true,
-    maxlength: [50, 'Le nom ne peut pas du00e9passer 50 caractu00e8res']
+    maxlength: [50, 'Le nom ne peut pas dépasser 50 caractères']
   },
   email: {
     type: String,
@@ -21,8 +55,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Le mot de passe est requis'],
-    minlength: [6, 'Le mot de passe doit contenir au moins 6 caractu00e8res'],
-    select: false // Ne pas inclure le mot de passe dans les ru00e9ponses par du00e9faut
+    minlength: [6, 'Le mot de passe doit contenir au moins 6 caractères'],
+    select: false // Ne pas inclure le mot de passe dans les réponses par défaut
   },
   role: {
     type: String,
@@ -31,7 +65,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    match: [/^\+?[0-9]{10,15}$/, 'Veuillez fournir un numu00e9ro de tu00e9lu00e9phone valide']
+    match: [/^\+?[0-9]{10,15}$/, 'Veuillez fournir un numéro de téléphone valide']
   },
   address: {
     type: String
@@ -48,7 +82,7 @@ const userSchema = new mongoose.Schema({
 
 // Hacher le mot de passe avant de sauvegarder l'utilisateur
 userSchema.pre('save', async function(next) {
-  // Ne hacher le mot de passe que s'il a u00e9tu00e9 modifiu00e9
+  // Ne hacher le mot de passe que s'il a été modifié
   if (!this.isModified('password')) {
     next();
   }
@@ -58,7 +92,7 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// Mu00e9thode pour gu00e9nu00e9rer un JWT
+// Méthode pour générer un JWT
 userSchema.methods.getSignedJwtToken = function() {
   return jwt.sign(
     { id: this._id },
@@ -67,7 +101,7 @@ userSchema.methods.getSignedJwtToken = function() {
   );
 };
 
-// Mu00e9thode pour vu00e9rifier si le mot de passe correspond
+// Méthode pour vérifier si le mot de passe correspond
 userSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

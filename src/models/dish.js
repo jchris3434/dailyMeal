@@ -1,5 +1,27 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     WeeklySchedule:
+ *       type: object
+ *       required:
+ *         - dayOfWeek
+ *       properties:
+ *         dayOfWeek:
+ *           type: number
+ *           description: Jour de la semaine (0 = dimanche, 6 = samedi)
+ *           minimum: 0
+ *           maximum: 6
+ *         isAvailable:
+ *           type: boolean
+ *           description: Indique si le plat est disponible ce jour-là
+ *           default: true
+ *       example:
+ *         dayOfWeek: 1
+ *         isAvailable: true
+ */
 const weeklyScheduleSchema = new mongoose.Schema({
   dayOfWeek: {
     type: Number,
@@ -13,6 +35,83 @@ const weeklyScheduleSchema = new mongoose.Schema({
   }
 });
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Dish:
+ *       type: object
+ *       required:
+ *         - name
+ *         - price
+ *         - restaurant
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: ID unique du plat généré automatiquement par MongoDB
+ *         name:
+ *           type: string
+ *           description: Nom du plat
+ *         description:
+ *           type: string
+ *           description: Description du plat
+ *         price:
+ *           type: number
+ *           description: Prix du plat
+ *           minimum: 0
+ *         image:
+ *           type: string
+ *           description: URL de l'image du plat
+ *         dietaryOptions:
+ *           type: array
+ *           items:
+ *             type: string
+ *             enum: [vegetarian, vegan, gluten-free, dairy-free, nut-free, halal, kosher]
+ *           description: Options diététiques du plat
+ *         ingredients:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Liste des ingrédients du plat
+ *         isAvailable:
+ *           type: boolean
+ *           description: Indique si le plat est disponible
+ *           default: true
+ *         weeklySchedule:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/WeeklySchedule'
+ *           description: Programmation hebdomadaire du plat
+ *         restaurant:
+ *           type: string
+ *           description: ID du restaurant proposant le plat
+ *         availableDate:
+ *           type: string
+ *           format: date-time
+ *           description: Date de disponibilité du plat
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date de création du plat
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date de mise à jour du plat
+ *       example:
+ *         name: Plat Test
+ *         description: Un plat délicieux pour les tests
+ *         price: 12.99
+ *         image: https://example.com/images/plat.jpg
+ *         dietaryOptions: [vegetarian, gluten-free]
+ *         ingredients: [tomate, mozzarella, basilic]
+ *         isAvailable: true
+ *         weeklySchedule: [
+ *           { dayOfWeek: 1, isAvailable: true },
+ *           { dayOfWeek: 3, isAvailable: true },
+ *           { dayOfWeek: 5, isAvailable: true }
+ *         ]
+ *         restaurant: 5f8d0c1dcb2d663ae8c7a3b5
+ */
 const dishSchema = new mongoose.Schema({
   name: {
     type: String,

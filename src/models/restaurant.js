@@ -1,5 +1,25 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     OpeningHours:
+ *       type: object
+ *       properties:
+ *         open:
+ *           type: string
+ *           description: Heure d'ouverture au format HH:MM
+ *           pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+ *         close:
+ *           type: string
+ *           description: Heure de fermeture au format HH:MM
+ *           pattern: ^([01]?[0-9]|2[0-3]):[0-5][0-9]$
+ *       example:
+ *         open: "08:00"
+ *         close: "22:00"
+ */
+
 // Schéma pour les heures d'ouverture
 const openingHoursSchema = new mongoose.Schema({
   open: {
@@ -11,6 +31,92 @@ const openingHoursSchema = new mongoose.Schema({
     match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/  // Format HH:MM (00:00 - 23:59)
   }
 }, { _id: false });
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Restaurant:
+ *       type: object
+ *       required:
+ *         - name
+ *         - address
+ *         - location
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: ID unique du restaurant généré automatiquement par MongoDB
+ *         name:
+ *           type: string
+ *           description: Nom du restaurant
+ *         address:
+ *           type: string
+ *           description: Adresse du restaurant
+ *         location:
+ *           type: object
+ *           properties:
+ *             type:
+ *               type: string
+ *               enum: [Point]
+ *               description: Type de géométrie GeoJSON
+ *             coordinates:
+ *               type: array
+ *               items:
+ *                 type: number
+ *               description: Coordonnées [longitude, latitude]
+ *         phone:
+ *           type: string
+ *           description: Numéro de téléphone du restaurant
+ *         email:
+ *           type: string
+ *           description: Adresse email du restaurant
+ *         cuisine:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Type de cuisine du restaurant
+ *         openingHours:
+ *           type: object
+ *           properties:
+ *             monday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             tuesday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             wednesday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             thursday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             friday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             saturday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *             sunday:
+ *               $ref: '#/components/schemas/OpeningHours'
+ *         owner:
+ *           type: string
+ *           description: ID de l'utilisateur propriétaire du restaurant
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date de création du restaurant
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Date de mise à jour du restaurant
+ *       example:
+ *         name: Restaurant Test
+ *         address: 123 Rue Test, 75000 Paris
+ *         location:
+ *           type: Point
+ *           coordinates: [2.3522, 48.8566]
+ *         phone: "+33123456789"
+ *         email: "restaurant-test@example.com"
+ *         cuisine: ["française", "italienne"]
+ *         openingHours:
+ *           monday:
+ *             open: "08:00"
+ *             close: "22:00"
+ */
 
 // Schéma pour le modèle Restaurant
 const restaurantSchema = new mongoose.Schema({

@@ -94,10 +94,10 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
 
 ## Phase 4: Système de Notification
 
-- [ ] Implémenter et tester les notifications pour les restaurateurs
-  - [ ] Écrire les tests pour les notifications
-  - [ ] Implémenter le système de notifications
-  - [ ] Valider les tests
+- [ ] ~~Implémenter et tester les notifications pour les restaurateurs~~ (reporté à une version ultérieure)
+  - [ ] ~~Écrire les tests pour les notifications~~
+  - [ ] ~~Implémenter le système de notifications~~
+  - [ ] ~~Valider les tests~~
 
 ## Phase 5: Documentation et Tests d'Intégration
 

@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const { swaggerUi, swaggerDocs } = require('./config/swagger');
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -17,6 +18,9 @@ app.use(cookieParser());
 
 // Activer CORS
 app.use(cors());
+
+// Documentation Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
 app.use('/api/restaurants', require('./routes/restaurants'));
