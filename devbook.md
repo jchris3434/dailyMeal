@@ -63,15 +63,15 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
     - Paramètres de requête sur la route principale `/api/restaurants?lat=X&lng=Y&maxDistance=Z`
     - Utilisation de `$geoWithin` avec `$centerSphere` pour les requêtes géospatiales
 
-- [ ] Implémenter et tester les filtres et tris
-  - [ ] Écrire les tests pour les filtres (distance, prix, options diététiques)
-  - [ ] Implémenter les filtres
-  - [ ] Valider les tests
+- [x] Implémenter et tester les filtres et tris
+  - [x] Écrire les tests pour les filtres (distance, prix, options diététiques)
+  - [x] Implémenter les filtres
+  - [x] Valider les tests
 
-- [ ] Implémenter et tester la réinitialisation quotidienne
-  - [ ] Écrire les tests pour la réinitialisation automatique
-  - [ ] Implémenter la tâche cron pour la réinitialisation
-  - [ ] Valider les tests
+- [x] Implémenter et tester la réinitialisation quotidienne
+  - [x] Écrire les tests pour la réinitialisation automatique
+  - [x] Implémenter la tâche cron pour la réinitialisation
+  - [x] Valider les tests
 
 - [ ] Implémenter et tester la programmation hebdomadaire des plats
   - [ ] Écrire les tests pour la programmation
@@ -144,3 +144,10 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
 - Amélioration de la méthode `findNearby` avec `$geoWithin` et `$centerSphere` pour résoudre les problèmes de compatibilité MongoDB
 - Validation des paramètres de géolocalisation et gestion appropriée des erreurs
 - Tous les tests de géolocalisation passent avec succès
+
+### 25/03/2025 - Implémentation des filtres pour les plats
+
+- Implémentation des filtres de base pour les plats avec les requêtes MongoDB
+- Filtrage par prix fonctionnel avec des requêtes comme `{ "price": { "$lt": 12 } }`
+- Filtrage par options diététiques fonctionnel avec des requêtes comme `{ "dietaryOptions": { "$in": ["vegan"] } }`
+- Tests validés pour les différentes options de filtrage
