@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const weeklyScheduleSchema = new mongoose.Schema({
+  dayOfWeek: {
+    type: Number,
+    required: true,
+    min: [0, 'Le jour doit être entre 0 (dimanche) et 6 (samedi)'],
+    max: [6, 'Le jour doit être entre 0 (dimanche) et 6 (samedi)']
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true
+  }
+});
+
 const dishSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -39,6 +52,10 @@ const dishSchema = new mongoose.Schema({
   isAvailable: {
     type: Boolean,
     default: true
+  },
+  weeklySchedule: {
+    type: [weeklyScheduleSchema],
+    default: []
   }
 }, {
   timestamps: true
@@ -63,6 +80,15 @@ dishSchema.statics.findAvailableToday = function() {
   
   return this.find({
     availableDate: { $gte: today, $lt: tomorrow },
+    isAvailable: true
+  });
+};
+
+// Méthode statique pour trouver les plats disponibles un jour spécifique de la semaine
+dishSchema.statics.findAvailableByDayOfWeek = function(dayOfWeek) {
+  return this.find({
+    'weeklySchedule.dayOfWeek': dayOfWeek,
+    'weeklySchedule.isAvailable': true,
     isAvailable: true
   });
 };

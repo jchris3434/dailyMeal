@@ -73,10 +73,10 @@ Ce document détaille les étapes de développement du projet DailyMeal, une app
   - [x] Implémenter la tâche cron pour la réinitialisation
   - [x] Valider les tests
 
-- [ ] Implémenter et tester la programmation hebdomadaire des plats
-  - [ ] Écrire les tests pour la programmation
-  - [ ] Implémenter la fonctionnalité de programmation
-  - [ ] Valider les tests
+- [x] Implémenter et tester la programmation hebdomadaire des plats
+  - [x] Écrire les tests pour la programmation
+  - [x] Implémenter la fonctionnalité de programmation
+  - [x] Valider les tests
 
 - [ ] Implémenter et tester la gestion des stocks
   - [ ] Écrire les tests pour la gestion des stocks

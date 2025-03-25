@@ -7,7 +7,10 @@ const {
   updateDish, 
   deleteDish,
   getDishesByRestaurant,
-  getAvailableDishes
+  getAvailableDishes,
+  scheduleDish,
+  getDishSchedule,
+  getDishesByDayOfWeek
 } = require('../controllers/dishes');
 
 // Middleware d'authentification
@@ -17,9 +20,18 @@ const { protect, authorize } = require('../middlewares/auth');
 router.route('/available')
   .get(getAvailableDishes);
 
+// Route pour les plats disponibles un jour spécifique de la semaine
+router.route('/available/day/:dayOfWeek')
+  .get(getDishesByDayOfWeek);
+
 // Route pour les plats par restaurant
 router.route('/restaurant/:restaurantId')
   .get(getDishesByRestaurant);
+
+// Routes pour la programmation hebdomadaire d'un plat
+router.route('/:id/schedule')
+  .get(getDishSchedule)
+  .post(protect, authorize('owner', 'admin'), scheduleDish);
 
 // Routes principales
 router.route('/')

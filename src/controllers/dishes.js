@@ -297,3 +297,118 @@ exports.getAvailableDishes = async (req, res, next) => {
     next(err);
   }
 };
+
+// @desc    Programmer un plat pour des jours spécifiques de la semaine
+// @route   POST /api/dishes/:id/schedule
+// @access  Private (owner of the restaurant, admin)
+exports.scheduleDish = async (req, res, next) => {
+  try {
+    let dish = await Dish.findById(req.params.id);
+
+    if (!dish) {
+      return res.status(404).json({
+        success: false,
+        error: 'Plat non trouvé'
+      });
+    }
+
+    // Trouver le restaurant associé au plat
+    const restaurant = await Restaurant.findById(dish.restaurant);
+
+    // Vérifier si l'utilisateur est le propriétaire du restaurant ou un admin
+    if (restaurant.owner.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        error: 'Vous n\'avez pas l\'autorisation de programmer ce plat'
+      });
+    }
+
+    // Valider les données de programmation
+    if (!req.body.schedule || !Array.isArray(req.body.schedule)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Données de programmation invalides'
+      });
+    }
+
+    // Valider chaque entrée de programmation
+    for (const entry of req.body.schedule) {
+      if (typeof entry.dayOfWeek !== 'number' || entry.dayOfWeek < 0 || entry.dayOfWeek > 6) {
+        return res.status(400).json({
+          success: false,
+          error: 'Le jour de la semaine doit être un nombre entre 0 (dimanche) et 6 (samedi)'
+        });
+      }
+
+      if (typeof entry.isAvailable !== 'boolean') {
+        entry.isAvailable = true; // Valeur par défaut
+      }
+    }
+
+    // Mettre à jour la programmation hebdomadaire
+    dish.weeklySchedule = req.body.schedule;
+    await dish.save();
+
+    res.status(200).json({
+      success: true,
+      data: dish
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Obtenir la programmation hebdomadaire d'un plat
+// @route   GET /api/dishes/:id/schedule
+// @access  Public
+exports.getDishSchedule = async (req, res, next) => {
+  try {
+    const dish = await Dish.findById(req.params.id);
+
+    if (!dish) {
+      return res.status(404).json({
+        success: false,
+        error: 'Plat non trouvé'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        id: dish._id,
+        name: dish.name,
+        weeklySchedule: dish.weeklySchedule
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Obtenir tous les plats disponibles un jour spécifique de la semaine
+// @route   GET /api/dishes/available/day/:dayOfWeek
+// @access  Public
+exports.getDishesByDayOfWeek = async (req, res, next) => {
+  try {
+    const dayOfWeek = parseInt(req.params.dayOfWeek, 10);
+
+    // Valider le jour de la semaine
+    if (isNaN(dayOfWeek) || dayOfWeek < 0 || dayOfWeek > 6) {
+      return res.status(400).json({
+        success: false,
+        error: 'Le jour de la semaine doit être un nombre entre 0 (dimanche) et 6 (samedi)'
+      });
+    }
+
+    // Trouver les plats disponibles ce jour-là
+    const dishes = await Dish.findAvailableByDayOfWeek(dayOfWeek);
+
+    res.status(200).json({
+      success: true,
+      count: dishes.length,
+      data: dishes
+    });
+  } catch (err) {
+    next(err);
+  }
+};
